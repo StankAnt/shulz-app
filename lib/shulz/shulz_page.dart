@@ -19,6 +19,6 @@ class ShulzPage extends StatelessWidget {
   }
 
   void _onPressed(context) {
-    Navigator.pushNamed(context, ScreensRoutes.login);
+    Navigator.pushNamed(context, ScreensRoutes.some);
   }
 }

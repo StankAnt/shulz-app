@@ -9,12 +9,20 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
+    return RawMaterialButton(
       onPressed: _onPressed,
-      child: Text('Login'),
+      child: Text(
+        'Shulz\nup',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 18,
+          fontFamily: 'Limelight',
+        ),
+      ),
+      shape: CircleBorder(),
+      elevation: 3.0,
+      fillColor: Colors.white,
+      padding: EdgeInsets.all(25.0),
     );
   }
 }

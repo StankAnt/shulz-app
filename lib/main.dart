@@ -14,6 +14,8 @@ import 'package:shulz/repositories/user_repository.dart';
 
 import 'package:shulz/screens_routes.dart';
 
+import 'package:shulz/router/router.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -25,6 +27,7 @@ Future main() async {
 
   final UserRepository userRepository =
       UserRepository(httpClient: _httpClient, storage: secureStorage);
+
   runApp(
     BlocProvider(
       builder: (context) =>
@@ -45,23 +48,17 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: ScreensRoutes.main,
-      routes: {
-        ScreensRoutes.main: (context) {
-          return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) {
-              if (state is Unauthenticated) {
-                // Navigator.pushNamed(context, ScreensRoutes.login);
-                return LoginPage(userRepository: _userRepository);
-              }
-              return ShulzPage();
-            },
-          );
+      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is Uninitialized) {
+            return ShulzPage();
+          }
+          return Router(
+            isAuthenticated: state is Authenticated,
+            userRepository: _userRepository,
+          ).buildNavigator();
         },
-        ScreensRoutes.login: (context) {
-          return LoginPage(userRepository: _userRepository);
-        }
-      },
+      ),
     );
   }
 }

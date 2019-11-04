@@ -40,47 +40,69 @@ class _LoginFormState extends State<LoginForm> {
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           return Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.only(
+              left: 50,
+              right: 50,
+            ),
             child: Form(
-              child: ListView(
-                children: <Widget>[
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.account_circle),
-                      labelText: 'Username',
-                    ),
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isUsernameValid ? 'Invalid Username' : null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        LoginButton(
-                          onPressed: _onFormSubmitted,
+              child: Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    TextFormField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        hintText: 'Login',
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey[500],
+                            width: 2,
+                          ),
                         ),
-                      ],
+                      ),
+                      textAlign: TextAlign.center,
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isUsernameValid
+                            ? 'Invalid Username'
+                            : null;
+                      },
                     ),
-                  ),
-                ],
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey[500],
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      textAlign: TextAlign.center,
+                      obscureText: true,
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isPasswordValid
+                            ? 'Invalid Password'
+                            : null;
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          LoginButton(
+                            onPressed: _onFormSubmitted,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
