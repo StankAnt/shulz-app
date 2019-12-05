@@ -31,6 +31,14 @@ class _LoginFormState extends State<LoginForm> {
     _passwordController.addListener(_onPasswordChanged);
   }
 
+  bool get isPopulated =>
+      _usernameController.text.isNotEmpty &&
+      _passwordController.text.isNotEmpty;
+
+  bool isLoginButtonEnabled(LoginState state) {
+    return state.isFormValid && isPopulated && !state.isSubmitting;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
@@ -96,7 +104,9 @@ class _LoginFormState extends State<LoginForm> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           LoginButton(
-                            onPressed: _onFormSubmitted,
+                            onPressed: isLoginButtonEnabled(state)
+                                ? _onFormSubmitted
+                                : null,
                           ),
                         ],
                       ),

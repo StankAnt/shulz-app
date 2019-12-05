@@ -1,29 +1,36 @@
 import 'dart:async';
 import 'package:meta/meta.dart';
-import 'package:shulz/utils/http_client.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shulz/api_routes/api_routes.dart';
 
 class UserRepository {
-  final HttpClient httpClient;
+  final Dio httpClient;
   final FlutterSecureStorage storage;
 
   UserRepository({@required this.httpClient, @required this.storage});
-
-  Future<void> signUp({
-    @required String username,
-    @required String password,
-    @required String pushToken,
-  }) async {
-    return await httpClient.post(UserRoutes.signUp);
-  }
 
   Future<void> signIn({
     @required String username,
     @required String password,
     @required String pushToken,
   }) async {
-    return await httpClient.post(UserRoutes.signIn);
+    final body = {
+      "name": username,
+      "password": password,
+      "pushToken": pushToken,
+    };
+    try {
+      return await httpClient.post(
+        UserRoutes.signUp,
+        data: body,
+      );
+    } catch (_) {
+      return await httpClient.post(
+        UserRoutes.signIn,
+        data: body,
+      );
+    }
   }
 
   Future<void> persistUser(

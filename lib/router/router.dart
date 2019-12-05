@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-
-import 'package:shulz/router/screens_routes.dart';
-
 import 'package:shulz/login/login.dart';
-import 'package:shulz/shulz/shulz.dart';
-
 import 'package:shulz/repositories/user_repository.dart';
+import 'package:shulz/router/screens_routes.dart';
+import 'package:shulz/shulz/shulz.dart';
 
 class Router {
   UserRepository _userRepository;
   Map<String, WidgetBuilder> routes;
   bool _isAuthenticated;
+
+  Widget myHui() {
+    return Text('hui');
+  }
 
   Router({
     @required UserRepository userRepository,
@@ -18,11 +19,9 @@ class Router {
   }) {
     _userRepository = userRepository;
     _isAuthenticated = isAuthenticated;
-
     final Map<String, WidgetBuilder> anonymousRoutes = {
-      ScreensRoutes.main: (context) => LoginPage(
-            userRepository: _userRepository,
-          ),
+      ScreensRoutes.main: (context) =>
+          LoginPage(userRepository: _userRepository),
     };
 
     final Map<String, WidgetBuilder> authenticatedRoutes = {

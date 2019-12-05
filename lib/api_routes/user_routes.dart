@@ -1,4 +1,4 @@
 class UserRoutes {
-  static final String signUp = '/signup';
+  static final String signUp = '/init';
   static final String signIn = '/signin';
 }

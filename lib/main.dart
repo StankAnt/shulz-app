@@ -1,20 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:shulz/utils/http_client.dart' as http;
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import 'package:shulz/bloc/bloc.dart';
-
-import 'package:shulz/login/login.dart';
-import 'package:shulz/shulz/shulz.dart';
 import 'package:shulz/authentication/authentication.dart';
+import 'package:shulz/bloc/bloc.dart';
+import 'package:shulz/config.dart';
 import 'package:shulz/repositories/user_repository.dart';
-
-import 'package:shulz/screens_routes.dart';
-
 import 'package:shulz/router/router.dart';
+import 'package:shulz/shulz/shulz.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +17,15 @@ Future main() async {
 
   await DotEnv().load('.env');
 
-  final http.HttpClient _httpClient = http.HttpClient();
+  final Dio _dio = new Dio();
+
+  _dio.options.baseUrl = Config.apiHost;
+  _dio.options.connectTimeout = 5000;
+  _dio.options.receiveTimeout = 3000;
   final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   final UserRepository userRepository =
-      UserRepository(httpClient: _httpClient, storage: secureStorage);
+      UserRepository(httpClient: _dio, storage: secureStorage);
 
   runApp(
     BlocProvider(
